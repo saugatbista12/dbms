@@ -1,14 +1,14 @@
--- Create a new database for Career Development Cell (CDC)
+
 CREATE DATABASE career_development_cell;
 USE career_development_cell;
 
--- Create Departments table to store different academic departments
+
 CREATE TABLE Departments (
-    DepartmentID INT PRIMARY KEY,                     -- Unique ID for each department
-    DepartmentName VARCHAR(100) UNIQUE NOT NULL       -- Department name must be unique and not null
+    DepartmentID INT PRIMARY KEY,                    
+    DepartmentName VARCHAR(100) UNIQUE NOT NULL       
 );
 
--- Insert sample data into Departments table
+
 INSERT INTO Departments (DepartmentID, DepartmentName) VALUES
 (1, 'Computer Science'),
 (2, 'Electronics'),
@@ -16,21 +16,19 @@ INSERT INTO Departments (DepartmentID, DepartmentName) VALUES
 (4, 'Civil Engineering'),
 (5, 'Business Administration');
 
--- View Departments data
 SELECT * FROM Departments;
 
--- Create Students table with foreign key to Departments
+
 CREATE TABLE Students (
-    StudentID INT PRIMARY KEY,                        -- Unique student ID
-    FullName VARCHAR(100) NOT NULL,                   -- Student full name
-    CGPA DECIMAL(3,2) CHECK (CGPA BETWEEN 0 AND 10), -- CGPA must be between 0 and 10
-    DepartmentID INT NOT NULL,                         -- Foreign key to Departments
-    Email VARCHAR(100) UNIQUE NOT NULL,                -- Unique email address
-    Status VARCHAR(20) DEFAULT 'Unplaced',            -- Placement status, default is 'Unplaced'
+    StudentID INT PRIMARY KEY,                       
+    FullName VARCHAR(100) NOT NULL,                   
+    CGPA DECIMAL(3,2) CHECK (CGPA BETWEEN 0 AND 10), 
+    DepartmentID INT NOT NULL,                         
+    Email VARCHAR(100) UNIQUE NOT NULL,                
+    Status VARCHAR(20) DEFAULT 'Unplaced',            
     FOREIGN KEY (DepartmentID) REFERENCES Departments(DepartmentID)
 );
 
--- Insert sample students into Students table
 INSERT INTO Students (StudentID, FullName, CGPA, DepartmentID, Email, Status) VALUES
 (1, 'Anil Gurung', 8.7, 1, 'anil.gurung@univ.edu', 'Placed'),
 (2, 'Sunita Rai', 9.1, 2, 'sunita.rai@univ.edu', 'Placed'),
@@ -43,25 +41,22 @@ INSERT INTO Students (StudentID, FullName, CGPA, DepartmentID, Email, Status) VA
 (9, 'Maya Gautam', 9.3, 1, 'maya.gautam@univ.edu', 'Placed'),
 (10, 'Dipesh Thapa', 7.8, 2, 'dipesh.thapa@univ.edu', 'Placed');
 
--- View all students
 SELECT * FROM Students;
 
--- Create CDC Staff table to store staff managing placements/internships
 CREATE TABLE CDC_Staff (
-    StaffID INT PRIMARY KEY,                  -- Unique staff ID
-    Name VARCHAR(100) NOT NULL,               -- Staff member name
-    Role VARCHAR(50),                         -- Role in CDC
-    Email VARCHAR(100) UNIQUE                  -- Unique email for staff
+    StaffID INT PRIMARY KEY,                  
+    Name VARCHAR(100) NOT NULL,               
+    Role VARCHAR(50),                        
+    Email VARCHAR(100) UNIQUE                  
 );
 
--- Create Companies table to store companies offering internships and placements
 CREATE TABLE Companies (
-    CompanyID INT PRIMARY KEY,                -- Unique company ID
-    CompanyName VARCHAR(100) UNIQUE NOT NULL,-- Unique company name
-    Location VARCHAR(100) NOT NULL            -- Company location
+    CompanyID INT PRIMARY KEY,               
+    CompanyName VARCHAR(100) UNIQUE NOT NULL,
+    Location VARCHAR(100) NOT NULL            
 );
 
--- Insert sample companies
+
 INSERT INTO Companies (CompanyID, CompanyName, Location) VALUES
 (1, 'Google', 'California'),
 (2, 'Amazon', 'Seattle'),
@@ -74,17 +69,16 @@ INSERT INTO Companies (CompanyID, CompanyName, Location) VALUES
 (9, 'Apple', 'Cupertino'),
 (10, 'Salesforce', 'San Francisco');
 
--- Create InternshipOffers table with FK to Companies
 CREATE TABLE InternshipOffers (
-    InternshipID INT PRIMARY KEY,              -- Unique internship offer ID
-    CompanyID INT NOT NULL,                     -- FK to Companies
-    Title VARCHAR(100),                         -- Internship title
-    DurationMonths INT,                         -- Duration of internship
-    Stipend DECIMAL(8,2),                       -- Monthly stipend amount
+    InternshipID INT PRIMARY KEY,              
+    CompanyID INT NOT NULL,                     
+    Title VARCHAR(100),                         
+    DurationMonths INT,                        
+    Stipend DECIMAL(8,2),                       
     FOREIGN KEY (CompanyID) REFERENCES Companies(CompanyID)
 );
 
--- Insert sample internship offers
+
 INSERT INTO InternshipOffers (InternshipID, CompanyID, Title, DurationMonths, Stipend) VALUES
 (1, 1, 'Software Engineering Intern', 6, 1500.00),
 (2, 2, 'Data Analyst Intern', 3, 1200.00),
@@ -97,16 +91,15 @@ INSERT INTO InternshipOffers (InternshipID, CompanyID, Title, DurationMonths, St
 (9, 8, 'Mechanical Intern', 6, 1000.00),
 (10, 9, 'Mobile Developer Intern', 5, 1400.00);
 
--- Create PlacementOffers table with FK to Companies
 CREATE TABLE PlacementOffers (
-    PlacementID INT PRIMARY KEY,              -- Unique placement offer ID
-    CompanyID INT NOT NULL,                     -- FK to Companies
-    Title VARCHAR(100),                         -- Placement title
-    PackageLPA DECIMAL(6,2),                    -- Package in LPA (Lakhs Per Annum)
+    PlacementID INT PRIMARY KEY,              
+    CompanyID INT NOT NULL,                    
+    Title VARCHAR(100),                         
+    PackageLPA DECIMAL(6,2),                   
     FOREIGN KEY (CompanyID) REFERENCES Companies(CompanyID)
 );
 
--- Insert sample placement offers
+
 INSERT INTO PlacementOffers (PlacementID, CompanyID, Title, PackageLPA) VALUES
 (1, 1, 'Software Engineer', 25.00),
 (2, 2, 'Data Scientist', 22.00),
@@ -119,18 +112,17 @@ INSERT INTO PlacementOffers (PlacementID, CompanyID, Title, PackageLPA) VALUES
 (9, 9, 'Mobile Developer', 23.00),
 (10, 10, 'Salesforce Consultant', 21.00);
 
--- Create Applications table to record student applications for internship/placement
+
 CREATE TABLE Applications (
-    ApplicationID INT PRIMARY KEY,                  -- Unique application ID
-    StudentID INT NOT NULL,                         -- FK to Students
-    OfferType VARCHAR(10) CHECK (OfferType IN ('Internship', 'Placement')),  -- Type of offer
-    OfferID INT NOT NULL,                           -- ID of internship or placement offer
-    ApplicationDate DATE NOT NULL,                   -- Date of application
-    Status VARCHAR(20) DEFAULT 'In Process',         -- Application status
+    ApplicationID INT PRIMARY KEY,                  
+    StudentID INT NOT NULL,                         
+    OfferType VARCHAR(10) CHECK (OfferType IN ('Internship', 'Placement')),  
+    OfferID INT NOT NULL,                          
+    ApplicationDate DATE NOT NULL,                
+    Status VARCHAR(20) DEFAULT 'In Process',       
     FOREIGN KEY (StudentID) REFERENCES Students(StudentID)
 );
 
--- Insert sample applications
 INSERT INTO Applications (ApplicationID, StudentID, OfferType, OfferID, ApplicationDate, Status) VALUES
 (1, 1, 'Placement', 1, '2025-01-10', 'Selected'),
 (2, 2, 'Placement', 2, '2025-01-12', 'Rejected'),
@@ -148,20 +140,19 @@ INSERT INTO Applications (ApplicationID, StudentID, OfferType, OfferID, Applicat
 (14, 5, 'Internship', 5, '2025-01-28', 'Rejected'),
 (15, 9, 'Internship', 10, '2025-02-02', 'Selected');
 
--- View all applications
+
 SELECT * FROM Applications;
 
--- Create Interviews table to store interview rounds for applications
+
 CREATE TABLE Interviews (
-    RoundID INT PRIMARY KEY,                 -- Unique interview round ID
-    ApplicationID INT NOT NULL,              -- FK to Applications
-    RoundName VARCHAR(50),                   -- Name of interview round (e.g., Technical, HR)
-    RoundDate DATE,                          -- Date of the interview round
-    Result VARCHAR(20),                      -- Result of the round (Passed, Failed, Pending)
+    RoundID INT PRIMARY KEY,                 
+    ApplicationID INT NOT NULL,              
+    RoundName VARCHAR(50),                   
+    RoundDate DATE,                         
+    Result VARCHAR(20),                      
     FOREIGN KEY (ApplicationID) REFERENCES Applications(ApplicationID)
 );
 
--- Insert sample interview rounds
 INSERT INTO Interviews (RoundID, ApplicationID, RoundName, RoundDate, Result) VALUES
 (1, 1, 'Technical Round', '2025-01-15', 'Passed'),
 (2, 1, 'HR Round', '2025-01-20', 'Passed'),
@@ -174,19 +165,19 @@ INSERT INTO Interviews (RoundID, ApplicationID, RoundName, RoundDate, Result) VA
 (9, 13, 'HR Round', '2025-01-22', 'Passed'),
 (10, 15, 'Technical Round', '2025-02-10', 'Passed');
 
--- View Interviews data
+
 SELECT * FROM Interviews;
 
--- Create CompanyFeedback table to store feedback from companies on applications
+
 CREATE TABLE CompanyFeedback (
-    FeedbackID INT PRIMARY KEY,              -- Unique feedback ID
-    ApplicationID INT NOT NULL,              -- FK to Applications
-    Comments TEXT,                          -- Feedback comments
-    Rating INT CHECK (Rating BETWEEN 1 AND 5),  -- Rating 1-5 scale
+    FeedbackID INT PRIMARY KEY,              
+    ApplicationID INT NOT NULL,              
+    Comments TEXT,                          
+    Rating INT CHECK (Rating BETWEEN 1 AND 5),  
     FOREIGN KEY (ApplicationID) REFERENCES Applications(ApplicationID)
 );
 
--- Insert sample feedback
+
 INSERT INTO CompanyFeedback (FeedbackID, ApplicationID, Comments, Rating) VALUES
 (1, 1, 'Excellent technical skills and communication.', 5),
 (2, 2, 'Needs improvement in problem solving.', 2),
@@ -198,28 +189,28 @@ INSERT INTO CompanyFeedback (FeedbackID, ApplicationID, Comments, Rating) VALUES
 (8, 13, 'Average communication skills.', 3),
 (9, 15, 'Promising candidate for future roles.', 4);
 
--- View company feedback
+
 SELECT * FROM CompanyFeedback;
 
--- Query to count placed students per department
+
 SELECT d.DepartmentName, COUNT(*) AS PlacedCount
 FROM Students s
 JOIN Departments d ON s.DepartmentID = d.DepartmentID
 WHERE s.Status = 'Placed'
 GROUP BY d.DepartmentName;
 
--- Query to get average CGPA by student placement status
+
 SELECT Status, AVG(CGPA) AS AverageCGPA
 FROM Students
 GROUP BY Status;
 
--- Query to count internships offered by companies
+
 SELECT c.CompanyName, COUNT(io.InternshipID) AS InternshipCount
 FROM Companies c
 LEFT JOIN InternshipOffers io ON c.CompanyID = io.CompanyID
 GROUP BY c.CompanyName;
 
--- Query to list selected placement students with department and company info
+
 SELECT s.FullName, d.DepartmentName, c.CompanyName
 FROM Students s
 JOIN Departments d ON s.DepartmentID = d.DepartmentID
@@ -228,7 +219,7 @@ JOIN PlacementOffers p ON a.OfferID = p.PlacementID
 JOIN Companies c ON p.CompanyID = c.CompanyID
 WHERE a.Status = 'Selected' AND a.OfferType = 'Placement';
 
--- Query to list companies and students who applied for internships or placements
+
 SELECT c.CompanyName, s.FullName
 FROM Companies c
 JOIN InternshipOffers io ON c.CompanyID = io.CompanyID
@@ -242,13 +233,13 @@ JOIN Applications a ON a.OfferID = po.PlacementID AND a.OfferType = 'Placement'
 JOIN Students s ON a.StudentID = s.StudentID
 ORDER BY CompanyName, FullName;
 
--- Query students selected for both internship and placement
+
 SELECT DISTINCT s.StudentID, s.FullName
 FROM Students s
 JOIN Applications a1 ON s.StudentID = a1.StudentID AND a1.OfferType = 'Internship' AND a1.Status = 'Selected'
 JOIN Applications a2 ON s.StudentID = a2.StudentID AND a2.OfferType = 'Placement' AND a2.Status = 'Selected';
 
--- Query distinct students who applied for either internship or placement
+
 SELECT DISTINCT s.StudentID, s.FullName
 FROM Students s
 JOIN Applications a ON s.StudentID = a.StudentID
@@ -259,10 +250,11 @@ FROM Students s
 JOIN Applications a ON s.StudentID = a.StudentID
 WHERE a.OfferType = 'Placement';
 
--- Query distinct companies offering internships or placements
+
 SELECT DISTINCT c.CompanyID, c.CompanyName
 FROM Companies c
 JOIN InternshipOffers io ON c.CompanyID = io.CompanyID
 UNION
 SELECT DISTINCT c.CompanyID, c.CompanyName
 FROM Companies c
+
