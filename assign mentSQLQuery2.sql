@@ -20,10 +20,10 @@ SELECT * FROM Departments;
 
 CREATE TABLE Students (
     StudentID INT PRIMARY KEY,                        
-    FullName VARCHAR(100) NOT NULL,                   
+    FullName VARCHAR(20) NOT NULL,                   
     CGPA DECIMAL(3,2) CHECK (CGPA BETWEEN 0 AND 10), -- CGPA must be between 0 and 10
     DepartmentID INT NOT NULL,                         -- Foreign key to Departments
-    Email VARCHAR(100) UNIQUE NOT NULL,                
+    Email VARCHAR(20) UNIQUE NOT NULL,                
     Status VARCHAR(20) DEFAULT 'Unplaced',            -- Placement status, default is 'Unplaced'
     FOREIGN KEY (DepartmentID) REFERENCES Departments(DepartmentID)
 );
@@ -46,15 +46,15 @@ SELECT * FROM Students;
 -- CDC Staff table to store staff managing placements/internships
 CREATE TABLE CDC_Staff (
     StaffID INT PRIMARY KEY,                 
-    Name VARCHAR(100) NOT NULL,               
+    Name VARCHAR(20) NOT NULL,               
     Role VARCHAR(50),                         
-    Email VARCHAR(100) UNIQUE                  
+    Email VARCHAR(20) UNIQUE                  
 );
 
 CREATE TABLE Companies (
     CompanyID INT PRIMARY KEY,                
-    CompanyName VARCHAR(100) UNIQUE NOT NULL,
-    Location VARCHAR(100) NOT NULL            
+    CompanyName VARCHAR(20) UNIQUE NOT NULL,
+    Location VARCHAR(20) NOT NULL            
 );
 
 
@@ -73,7 +73,7 @@ INSERT INTO Companies (CompanyID, CompanyName, Location) VALUES
 CREATE TABLE InternshipOffers (
     InternshipID INT PRIMARY KEY,              
     CompanyID INT NOT NULL,                     -- FK to Companies
-    Title VARCHAR(100),                         
+    Title VARCHAR(20),                         
     DurationMonths INT,                         
     Stipend DECIMAL(8,2),                       -- Monthly stipend amount
     FOREIGN KEY (CompanyID) REFERENCES Companies(CompanyID)
@@ -96,7 +96,7 @@ INSERT INTO InternshipOffers (InternshipID, CompanyID, Title, DurationMonths, St
 CREATE TABLE PlacementOffers (
     PlacementID INT PRIMARY KEY,              
     CompanyID INT NOT NULL,                     -- FK to Companies
-    Title VARCHAR(100),                         -- Placement title
+    Title VARCHAR(50),                         -- Placement title
     PackageLPA DECIMAL(6,2),                    -- Package in LPA (Lakhs Per Annum)
     FOREIGN KEY (CompanyID) REFERENCES Companies(CompanyID)
 );
@@ -279,4 +279,5 @@ JOIN Companies c ON i.CompanyID = c.CompanyID
 WHERE a.OfferType = 'Internship'
 GROUP BY c.CompanyName
 ORDER BY TotalApplications DESC;
+
 
